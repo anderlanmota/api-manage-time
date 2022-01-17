@@ -1,5 +1,8 @@
 <?php 
+// define o fuso horário do servidor
 date_default_timezone_set('UTC');
+
+// define algumas configurações do header
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: *');
 header("Access-Control-Allow-Headers: *");
@@ -35,8 +38,10 @@ spl_autoload_register(function ($classname) {
 // inclui o arquivo da versão solicitada
 if (array_key_exists('PATH_INFO', $_SERVER)) {
 	$elements = explode('/', $_SERVER['PATH_INFO']);
+	print_r($elements);
+	exit();
 } else {
-	
+	exit("WEE");
 	
 }
         if (!array_key_exists('1', $this->elements)) {
@@ -48,5 +53,5 @@ if (array_key_exists('PATH_INFO', $_SERVER)) {
 
 
 // inclui o arquivo principal dentro da pasta resource
-require_once dirname(__FILE__) . "/resource/main.php";
+//require_once dirname(__FILE__) . "/resource/main.php";
 ?>
