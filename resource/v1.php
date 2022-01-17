@@ -1,6 +1,12 @@
 <?php 
 ##### VERSION 1 #####
-exit("versao ok");
+$objResource = new Resource();
+$prepare = $objResource->prepare();
 
-// de acordo com o recurso solicitado, executa o método necessário
+
+if ($prepare) {
+	echo "sucesso";
+} else {
+	echo "error";
+}
 ?>
