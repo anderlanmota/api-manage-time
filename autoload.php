@@ -53,7 +53,7 @@ if ( !array_key_exists( '1', $elements ) ) {
 }
 
 // verifica se a versão da api existe
-$version = strtolower( preg_replace( '#[^A-Za-z0-9]#', '', $version ) );
+$version = strtolower( preg_replace( '#[^A-Za-z0-9]#', '', $elements[1] ) );
 if ( !file_exists( dirname( __FILE__ ) . "/resource/" . $version . '.php' ) ) {
   http_response_code( 400 );
   header( 'Content-Type: application/json' );
