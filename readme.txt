@@ -39,13 +39,4 @@ Features:
 
 /times
  (tb_times)
-
-
-
-r4s07dx30s0o
-
-Usuário: anderlan_vibbra
-
-Banco de dados: anderlan_vibbra
-
-
+    
