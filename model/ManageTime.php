@@ -1,5 +1,5 @@
 <?php
-class ManageTime extends Database {
+class ManageTime extends Auth {
 
 	
 }

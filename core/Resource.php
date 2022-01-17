@@ -16,8 +16,8 @@ class Resource extends Sanitizer {
       } else {
         $element_error = false;
         foreach ( $this->elements as $element_key => $element_value ) {
-          if ( $element_key >= '1' ) {
-            if ( $element_key % 2 != 0 ) {
+          if ( $element_key >= '2' ) {
+            if ( $element_key % 2 == 0 ) {
               if ( empty( $element_value ) ) {
                 $resource_name = "";
               } else {
@@ -37,31 +37,24 @@ class Resource extends Sanitizer {
             }
           }
         }
-        $resourceclass = array_key_last( $this->resources );
-        if ( empty( $resourceclass ) ) {
-          $this->errormessage = "Link inválido. Recurso não informado.";
+        if ( !array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
+          $this->errormessage = "Acesso negado. Método não permitido.";
         } else {
-          $resourceclass = strtolower( $resourceclass );
-          $resourceclass = ucfirst( $resourceclass );
-          if ( !array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
+          $method = $_SERVER[ 'REQUEST_METHOD' ];
+          if ( $method != "GET" && $method != "POST" && $method != "PUT" && $method != "PATCH" && $method != "DELETE" ) {
             $this->errormessage = "Acesso negado. Método não permitido.";
           } else {
-            $method = $_SERVER[ 'REQUEST_METHOD' ];
-            if ( $method != "GET" && $method != "POST" && $method != "PUT" && $method != "PATCH" && $method != "DELETE" ) {
-              $this->errormessage = "Acesso negado. Método não permitido.";
-            } else {
-              if ( array_key_exists( '_METHOD', $_POST ) ) {
-                if ( $method == "POST" && $_POST[ '_METHOD' ] == "PATCH" ) {
-                  $_SERVER[ 'REQUEST_METHOD' ] = $_POST[ '_METHOD' ];
-                }
+            if ( array_key_exists( '_METHOD', $_POST ) ) {
+              if ( $method == "POST" && $_POST[ '_METHOD' ] == "PATCH" ) {
+                $_SERVER[ 'REQUEST_METHOD' ] = $_POST[ '_METHOD' ];
               }
-              $contentType = isset( $_SERVER[ "CONTENT_TYPE" ] ) ? trim( $_SERVER[ "CONTENT_TYPE" ] ) : '';
-              if ( strcasecmp( $contentType, 'application/json' ) == 0 ) {
-                $contentPost = trim( file_get_contents( "php://input" ) );
-                $contentdecoded = json_decode( $contentPost, true );
-                if ( is_array( $contentdecoded ) ) {
-                  $_POST = $contentdecoded;
-                }
+            }
+            $contentType = isset( $_SERVER[ "CONTENT_TYPE" ] ) ? trim( $_SERVER[ "CONTENT_TYPE" ] ) : '';
+            if ( strcasecmp( $contentType, 'application/json' ) == 0 ) {
+              $contentPost = trim( file_get_contents( "php://input" ) );
+              $contentdecoded = json_decode( $contentPost, true );
+              if ( is_array( $contentdecoded ) ) {
+                $_POST = $contentdecoded;
               }
             }
           }

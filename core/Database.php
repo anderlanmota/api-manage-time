@@ -1,12 +1,12 @@
 <?php
 abstract class Database extends Sanitizer {
-
   /*
-  EXEMPLO [Query] 
+  Example:
   $query = "SELECT `id`, `login` FROM `tb_test` WHERE `id`='123';";
   $result = $this->mysqlquery($query);
-  RETORNO: 
-  false ou resultado do query mysqli
+  
+  Return:
+  false or query result
   */
   protected function mysqlquery( $query ) {
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.php" );
@@ -42,7 +42,7 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  EXEMPLO [Select] 
+  Example:
   $campos = array('id','login');
   $result = $this->database_select("tb_usuarios", $campos, "`id`='123'"); // busca com index
   OU 

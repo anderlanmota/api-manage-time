@@ -1,5 +1,5 @@
 <?php
-class Project extends Database {
+class Project extends Auth {
 
 	
 }

@@ -3,9 +3,10 @@
 $objResource = new Resource();
 $prepare = $objResource->prepare();
 
+$mainResource = @array_key_last( RESOURCES );
 
 if ($prepare) {
-	echo "sucesso";
+	echo "s $mainResource";
 } else {
 	echo "error";
 }
