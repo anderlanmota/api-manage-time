@@ -23,7 +23,7 @@ class Project extends Auth {
       $Sanitizer = new Sanitizer();
       $title = @$Sanitizer->alphanumeric( DATA[ 'title' ], true, true, 55 );
       $description = @$Sanitizer->text( DATA[ 'description' ], 1024 );
-      $status = @strtolower( $Sanitizer->alphabetic( DATA[ 'status' ], false, false, 30 ) );
+      //$status = @strtolower( $Sanitizer->alphabetic( DATA[ 'status' ], false, false, 30 ) );
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
 		
