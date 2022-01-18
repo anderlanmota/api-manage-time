@@ -2,8 +2,8 @@
 class User extends Auth {
   // starts execution, identifying which method will call
   public function run() {
-	$Sanitizer = new Sanitizer();  
-	$method = strtolower($Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ));
+    $Sanitizer = new Sanitizer();
+    $method = strtolower( $Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ) );
     if ( method_exists( $this, $method ) ) {
       return $this->$method();
     } else {
@@ -11,46 +11,83 @@ class User extends Auth {
       return array( "message" => "Método $method indisponível." );
     }
   }
-	
+
   // cria um novo usuário
   // Api Public: YES
-  private function post(){
-	  $Sanitizer = new Sanitizer();
-	  
-	  
-	  
-	  
-	  
-	  // Request: { "name": STRING, "email": STRING, "login": STRING; "password": STRING }
-	  // Return Success: { "user" : OBJECT }
-	  // Return Fail: { "message" : STRING }
-	  
-	  
-	  
-	  return array( "message" => "USER POST OK", "data" => DATA );
+  private function post() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $name = @$Sanitizer->alphanumeric( DATA[ 'name' ], true, true, 55 );
+      $email = @$Sanitizer->email( DATA[ 'email' ] );
+      $login = @strtolower( $Sanitizer->alphanumeric( DATA[ 'login' ], false, false, 30 ) );
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+    }
   }
 
   // exibe os dados de um usuário ou uma lista de usuários
   // permite listar usuários referente a um projeto
   // Api Public: NO
-  private function get(){
-	  
-	  return array( "message" => "USER GET OK" );
+  private function get() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+    }
   }
 
   // edita um usuário
   // Api Public: YES
-  private function put(){
-	  $Sanitizer = new Sanitizer();
-	  
-	  return array( "message" => "USER PUT OK" );
+  private function put() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $name = @$Sanitizer->alphanumeric( DATA[ 'name' ], true, true, 55 );
+      $email = @$Sanitizer->email( DATA[ 'email' ] );
+      $login = @strtolower( $Sanitizer->alphanumeric( DATA[ 'login' ], false, false, 30 ) );
+      $userId = @RESOURCES[ 'users' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+
+    }
   }
 
   // apaga um usuário
   // Api Public: YES
-  private function delete(){
-	  
-	  return array( "message" => "USER DELETE OK" );
+  private function delete() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+		
+		
+    }
   }
 }
 ?>

@@ -3,7 +3,7 @@
 class Sanitizer {
 
   public function email( $string ) {
-    $string = filter_var( substr( trim( strtolower( $string ) ), 0, 255 ), FILTER_SANITIZE_EMAIL );
+    $string = filter_var( substr( trim( strtolower( $string ) ), 0, 155 ), FILTER_SANITIZE_EMAIL );
     return $string;
   }
 

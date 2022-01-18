@@ -2,8 +2,8 @@
 class Project extends Auth {
   // starts execution, identifying which method will call
   public function run() {
-	$Sanitizer = new Sanitizer();  
-	$method = strtolower($Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ));
+    $Sanitizer = new Sanitizer();
+    $method = strtolower( $Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ) );
     if ( method_exists( $this, $method ) ) {
       return $this->$method();
     } else {
@@ -11,38 +11,91 @@ class Project extends Auth {
       return array( "message" => "Método $method indisponível." );
     }
   }
- 
+
   // cria um novo projeto
   // Api Public: NO
-  private function post(){
-	  // Request: { "title": STRING, "description": STRING, "user_id": ARRAY }
-	  // Return Success: { "project" : OBJECT }
-	  // Return Fail: { "message" : STRING }
-	  
-	  
-	  return array( "message" => "PROJECT POST OK" );
+  private function post() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $title = @$Sanitizer->alphanumeric( DATA[ 'title' ], true, true, 55 );
+      $description = @$Sanitizer->text( DATA[ 'description' ], 1024 );
+      $status = @strtolower( $Sanitizer->alphabetic( DATA[ 'status' ], false, false, 30 ) );
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+		
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+    }
   }
 
   // exibe os dados de um projeto ou uma lista de projetos
   // permite listar projetos referente a um usuário
   // Api Public: NO
-  private function get(){
-	  
-	  return array( "message" => "PROJECT GET OK" );
+  private function get() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+		
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+
+    }
   }
 
   // edita um projeto
   // Api Public: NO
-  private function put(){
-	  
-	  return array( "message" => "PROJECT PUT OK" );
+  private function put() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $title = @$Sanitizer->alphanumeric( DATA[ 'title' ], true, true, 55 );
+      $description = @$Sanitizer->text( DATA[ 'description' ], 1024 );
+      $status = @strtolower( $Sanitizer->alphabetic( DATA[ 'status' ], false, false, 30 ) );
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+
+    }
   }
 
   // apaga um projeto
   // Api Public: NO
-  private function delete(){
-	  
-	  return array( "message" => "PROJECT DELETE OK" );
+  private function delete() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+
+    }
   }
 }
 ?>

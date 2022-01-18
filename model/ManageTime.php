@@ -2,8 +2,8 @@
 class ManageTime extends Auth {
   // starts execution, identifying which method will call
   public function run() {
-	$Sanitizer = new Sanitizer();  
-	$method = strtolower($Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ));
+    $Sanitizer = new Sanitizer();
+    $method = strtolower( $Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ) );
     if ( method_exists( $this, $method ) ) {
       return $this->$method();
     } else {
@@ -11,58 +11,94 @@ class ManageTime extends Auth {
       return array( "message" => "Método $method indisponível." );
     }
   }
- 
+
   // cria um novo tempo / inicia um novo tempo
   // Api Public: NO
-  private function post(){
-	  $Sanitizer = new Sanitizer();
-	  $started = @$Sanitizer->datetime(DATA['started']);
-	  $ended = @$Sanitizer->datetime(DATA['ended']);
-	  $userId = @RESOURCES['users'];
-	  $projectId = @RESOURCES['projects'];
-	  $timeId = @RESOURCES['times'];
-	  
-	  
-	  // Requests: { "project_id": INT, "user_id": INT, "started_at": DATETIME, "ended_at": DATETIME, }
-	  // Return Success: { "time" : OBJECT }
-	  // Return Fail: { "message" : STRING }
-	  
-	  return array( "message" => "TIME POST $started / $ended / $userId / $projectId / $timeId", "data" => DATA );
-	  
+  private function post() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $started = @$Sanitizer->datetime( DATA[ 'started' ] );
+      $ended = @$Sanitizer->datetime( DATA[ 'ended' ] );
+      $description = @$Sanitizer->text( DATA[ 'description' ], 1024 );
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+      $timeId = @RESOURCES[ 'times' ];
+
+      //$datetime1 = strtotime( '2022-01-18 08:56:45' );
+      //$datetime2 = strtotime( '2022-01-18 09:58:46' );
+      //$secs = round( $datetime2 - $datetime1 );
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+    }
   }
 
   // exibe os dados de um tempo ou uma lista de tempos
   // permite listar tempos referente a um usuário ou um projeto
   // Api Public: NO
-  private function get(){
-	  $timeId = @RESOURCES['times'];
-	  $userId = @RESOURCES['users'];
-	  $projectId = @RESOURCES['projects'];
-	  
-	  return array( "message" => "TIME GET OK" );
+  private function get() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+      $timeId = @RESOURCES[ 'times' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+	
+    }
   }
 
   // edita um tempo / para informar uma data final
   // Api Public: NO
-  private function put(){
-	  $Sanitizer = new Sanitizer();
-	  $ended = @$Sanitizer->datetime(DATA['ended']);
-	  $timeId = @RESOURCES['times'];
-	  $userId = @RESOURCES['users'];
-	  $projectId = @RESOURCES['projects'];
+  private function put() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $Sanitizer = new Sanitizer();
+      $ended = @$Sanitizer->datetime( DATA[ 'ended' ] );
+      $description = @$Sanitizer->text( DATA[ 'description' ], 1024 );
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+      $timeId = @RESOURCES[ 'times' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
 
-	  
-	  return array( "message" => "TIME PUT OK" );
+
+    }
   }
 
   // apaga um tempo
   // Api Public: NO
-  private function delete(){
-	  $timeId = @RESOURCES['times'];
-	  $userId = @RESOURCES['users'];
-	  $projectId = @RESOURCES['projects'];
-	  
-	  return array( "message" => "TIME DELETE OK" );
+  private function delete() {
+    $checkPermission = $this->checkPermission();
+    if ( $checkPermission[ 'responseCode' ] != '200' ) {
+      http_response_code( $checkPermission[ 'responseCode' ] );
+      return array( "message" => $checkPermission[ 'message' ] );
+    } else {
+      $userId = @RESOURCES[ 'users' ];
+      $projectId = @RESOURCES[ 'projects' ];
+      $timeId = @RESOURCES[ 'times' ];
+		
+		
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+
+    }
   }
 }
 ?>

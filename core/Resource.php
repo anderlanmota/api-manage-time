@@ -38,7 +38,7 @@ class Resource extends Sanitizer {
               } else {
                 $resource_id = $this->alphanumeric( $next_element_value, false, true, 55 );
               }
-              $this->resources[ $resource_name ] = "$resource_id";
+              $this->resources[ $resource_name ] = @intval($resource_i);
             }
           }
         }
@@ -63,6 +63,8 @@ class Resource extends Sanitizer {
       // JSON = { "name": "Joseph", "email": "joseph@email.com" }
 	  // DATA = array('name'=> "Joseph", 'email'=>"joseph@email.com")
 	  define( 'DATA', $this->data );
+
+	  define( 'AUTH', array() );
 		
       return true;
     } else {

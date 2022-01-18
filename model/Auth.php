@@ -1,8 +1,10 @@
 <?php
 class Auth extends Database {
   // check if the requesting user is logged in
-  protected function checkSession() {
-	$auth = array("login" => "", "userId" => "", "role" => "", "status" => "");
+  protected function checkPermission() {
+	$auth = array("login" => "ander", "userId" => "112233", "role" => "user", "status" => "active");
+	define( 'AUTH', $auth );
+	// salva esses dados em define AUTH
     return array( "responseCode" => "200", "message" => "OK" );
   }
 
@@ -21,21 +23,36 @@ class Auth extends Database {
   // cria uma nova sessão
   // Api Public: YES
   private function post(){
-	  // Request: { "login": STRING; "password": STRING }
-	  // Return Success: { "token": JWT, "user": OBJECT }
-	  // Return Fail: { "message" : STRING }
+	  $checkPermission = $this->checkPermission();
+	  if ($checkPermission['responseCode']!='200') {
+		 http_response_code( $checkPermission['responseCode'] );
+         return array( "message" => $checkPermission['message'] ); 
+	  } else {
+		  $Sanitizer = new Sanitizer();
+		  
+		  
+		  
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
 	  
-	  return array( "message" => "AUTH POST OK" );
+	  
+	  }
   }
  
   // apaga uma sessão
   // Api Public: NO
   private function delete(){
-	  // Request: NULL
-	  // Return Success: { "message": "" }
-	  // Return Fail: { "message" : STRING }
-	  
-	  return array( "message" => "AUTH DELETE OK" );
+	  $checkPermission = $this->checkPermission();
+	  if ($checkPermission['responseCode']!='200') {
+		 http_response_code( $checkPermission['responseCode'] );
+         return array( "message" => $checkPermission['message'] ); 
+	  } else {
+	 
+      http_response_code( 500 );
+      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+		  
+		  
+	  }
   }
 }
 ?>
