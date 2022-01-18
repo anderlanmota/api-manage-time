@@ -1,7 +1,8 @@
 <?php
-abstract class Database extends Sanitizer {
+// class responsible for executing transactions within the database
+abstract class Database {
   /*
-  Example:
+  Example mysqlquery:
   $query = "SELECT `id`, `login` FROM `tb_test` WHERE `id`='123';";
   $result = $this->mysqlquery($query);
   
@@ -10,7 +11,7 @@ abstract class Database extends Sanitizer {
   */
   protected function mysqlquery( $query ) {
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.php" );
-	eval($fileContents);
+    eval( $fileContents );
     //$server
     //$user
     //$password
@@ -42,22 +43,26 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  Example:
-  $campos = array('id','login');
-  $result = $this->database_select("tb_usuarios", $campos, "`id`='123'"); // busca com index
-  OU 
-  $result = $this->database_select("tb_usuarios", $campos); // busca sem index
-  RETORNO:
-  false ou resultado do query mysqli
-  - Listar varios registros
+  Example database_select:
+  $cols = array('id','login');
+  $result = $this->database_select("tb_users", $cols, "`id`='123'");
+  Or 
+  $result = $this->database_select("tb_users", $cols);
+  
+  Return:
+  false or query result
+  
+  Return example list
   while ($rows = $result->fetch_object()) {
   echo $rows->login."<br>";
   }
-  $result->free(); // libera a memoria
-  - Listar um registro
+  $result->free();
+  
+  Return example one
   $row = $result->fetch_object();
   echo $row->login."<br>";
-  $result->free(); // libera a memoria
+  $result->free();
+  
   */
   protected function database_select( $table_name, $data, $index = false ) {
     $values = implode( ",", array_values( $data ) );
@@ -72,11 +77,12 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  EXEMPLO [Insert]  
-  $dados_insert = array('nome' => "$nome", 'status' => "pendente");
-  $result = $this->database_insert("tb_usuarios", $dados_insert); 
-  RETORNO:
-  false ou resultado do query mysqli
+  Example database_insert:
+  $data_insert = array('name' => "$name", 'status' => "pending");
+  $result = $this->database_insert("tb_users", $data_insert); 
+  
+  Return:
+  false or query result
   */
   protected function database_insert( $table_name, $data ) {
     $fields = implode( ',', array_keys( $data ) );
@@ -87,10 +93,10 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  EXEMPLO [Count] 
-  $result = $this->database_count("tb_usuarios", "`id`='123'"); // contar com index
-  OU 
-  $total = $this->database_count("tb_usuarios"); // contar sem index
+  Example database_count:
+  $total = $this->database_count("tb_users", "`id`='123'");
+  Or 
+  $total = $this->database_count("tb_users");
   */
   protected function database_count( $table_name, $index = false ) {
     if ( !$index ) {
@@ -110,10 +116,10 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  EXEMPLO [Sum] 
-  $result = $this->database_sum("tb_usuarios","valor", "`id`='123'"); // somar com index
-  OU 
-  $total = $this->database_sum("tb_usuarios","valor"); // somar sem index
+  Example database_sum:
+  $sum = $this->database_sum("tb_users","balance", "`id`='123'");
+  Or
+  $sum = $this->database_sum("tb_users","balance");
   */
   protected function database_sum( $table_name, $field, $index = false ) {
     if ( !$index ) {
@@ -132,6 +138,12 @@ abstract class Database extends Sanitizer {
     }
   }
 
+  /*
+  Example database_avg:
+  $average = $this->database_avg("tb_users","balance", "`id`='123'");
+  Or
+  $average = $this->database_avg("tb_users","balance");
+  */
   protected function database_avg( $table_name, $field, $index = false ) {
     if ( !$index ) {
       $query = "SELECT AVG($field) AS total FROM `$table_name`";
@@ -150,14 +162,15 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-	EXEMPLO [Update] 
-	$campos_update = array('nome' => "$nome", 'status' => "$status");
-	$result = $this->database_update("tb_usuarios", $campos_update, "`id`='123'"); // alterar com index
-	OU 
-	$result = $this->database_update("tb_usuarios", $campos_update); // alterar sem index
-	RETORNO:
-	false ou resultado do query mysqli
-	*/
+  Example database_update: 
+  $data_update = array('name' => "$name", 'status' => "$status");
+  $result = $this->database_update("tb_users", $data_update, "`id`='123'");
+  Or 
+  $result = $this->database_update("tb_users", $data_update);
+	
+  Return:
+  false or query result
+  */
   protected function database_update( $table_name, $data, $index = false ) {
     foreach ( $data as $key => $value ) {
       $i++;
@@ -177,12 +190,13 @@ abstract class Database extends Sanitizer {
   }
 
   /*
-  EXEMPLO [Delete] 
-  $result = $this->database_delete("tb_usuarios", "`id`='123'"); // deletar com index
-  OU 
-  $result = $this->database_delete("tb_usuarios"); // deletar sem index (todos)
-  RETORNO:
-  false ou resultado do query mysqli
+  Example database_delete: 
+  $result = $this->database_delete("tb_users", "`id`='123'"); 
+  Or  
+  $result = $this->database_delete("tb_users"); ** Delete everything from the table, care! **
+  
+  Return:
+  false  or query result
   */
   protected function database_delete( $table_name, $index = false ) {
     if ( !$index ) {

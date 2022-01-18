@@ -1,4 +1,4 @@
 <?php 
-// inclui o arquivo o autoload.php responsável por iniciar o sistema
+// include the autoload.php file responsible for starting the system 
 require_once dirname(__FILE__) . "/autoload.php";
 ?>

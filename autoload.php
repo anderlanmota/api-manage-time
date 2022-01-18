@@ -1,8 +1,8 @@
 <?php
-// define o fuso horário do servidor
+// set server timezone
 date_default_timezone_set( 'UTC' );
 
-// define algumas configurações do header
+// set some header settings
 header( "Access-Control-Allow-Origin: *" );
 header( 'Access-Control-Allow-Methods: *' );
 header( "Access-Control-Allow-Headers: *" );
@@ -11,14 +11,14 @@ header( "Cache-Control: no-store, no-cache, must-revalidate, max-age=0" );
 header( "Cache-Control: post-check=0, pre-check=0", false );
 header( "Pragma: no-cache" );
 
-// permite a verificação se está acessível sem processar todo o sistema
+// allows checking if it is accessible without processing the entire system
 if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
   if ( $_SERVER[ 'REQUEST_METHOD' ] == 'OPTIONS' ) {
     return 0;
   }
 }
 
-// antes de incluir um arquivo de uma classe instanciada, verifica se ele existe
+// before including a file of an instantiated class, check if it exists 
 spl_autoload_register( function ( $classname ) {
   $classincluded = false;
   if ( !$classincluded ) {
@@ -35,7 +35,7 @@ spl_autoload_register( function ( $classname ) {
   }
 } );
 
-// verifica se a url da requisição é valida
+// check if the request url is valid
 if ( !array_key_exists( 'PATH_INFO', $_SERVER ) ) {
   http_response_code( 400 );
   header( 'Content-Type: application/json' );
@@ -43,7 +43,7 @@ if ( !array_key_exists( 'PATH_INFO', $_SERVER ) ) {
   exit();
 }
 
-// verifica se a versão da api foi informada
+// check if the api version was informed
 $elements = explode( '/', $_SERVER[ 'PATH_INFO' ] );
 if ( !array_key_exists( '1', $elements ) ) {
   http_response_code( 400 );
@@ -52,7 +52,7 @@ if ( !array_key_exists( '1', $elements ) ) {
   exit();
 }
 
-// verifica se a versão da api existe
+// check if the api version exists
 $version = strtolower( preg_replace( '#[^A-Za-z0-9]#', '', $elements[1] ) );
 if ( !file_exists( dirname( __FILE__ ) . "/resource/" . $version . '.php' ) ) {
   http_response_code( 400 );
@@ -61,6 +61,6 @@ if ( !file_exists( dirname( __FILE__ ) . "/resource/" . $version . '.php' ) ) {
   exit();
 }
 
-// inclui o arquivo da versão
+// include version file
 require_once dirname( __FILE__ ) . "/resource/" . $version . '.php';
 ?>

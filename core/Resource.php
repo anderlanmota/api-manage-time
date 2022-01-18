@@ -1,8 +1,12 @@
 <?php
+// this class checks if the requested URL has the valid features
+// and save the information in const RESOURCES
 class Resource extends Sanitizer {
-  private $elements = array(); // deixar em branco
-  private $resources = array(); // deixar em branco
-  public $errormessage = ""; // deixar em branco
+  private $elements = array();
+  private $resources = array();
+  public $errormessage = "";
+
+  // main method. responsible for processing the information received
   public function prepare() {
     if ( array_key_exists( 'PATH_INFO', $_SERVER ) ) {
       $this->elements = explode( '/', $_SERVER[ 'PATH_INFO' ] );
@@ -37,31 +41,25 @@ class Resource extends Sanitizer {
             }
           }
         }
-        if ( !array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
-          $this->errormessage = "Acesso negado. Método não permitido.";
-        } else {
-          $method = $_SERVER[ 'REQUEST_METHOD' ];
-          if ( $method != "GET" && $method != "POST" && $method != "PUT" && $method != "PATCH" && $method != "DELETE" ) {
-            $this->errormessage = "Acesso negado. Método não permitido.";
-          } else {
-            if ( array_key_exists( '_METHOD', $_POST ) ) {
-              if ( $method == "POST" && $_POST[ '_METHOD' ] == "PATCH" ) {
-                $_SERVER[ 'REQUEST_METHOD' ] = $_POST[ '_METHOD' ];
-              }
-            }
-            $contentType = isset( $_SERVER[ "CONTENT_TYPE" ] ) ? trim( $_SERVER[ "CONTENT_TYPE" ] ) : '';
-            if ( strcasecmp( $contentType, 'application/json' ) == 0 ) {
-              $contentPost = trim( file_get_contents( "php://input" ) );
-              $contentdecoded = json_decode( $contentPost, true );
-              if ( is_array( $contentdecoded ) ) {
-                $_POST = $contentdecoded;
-              }
-            }
+        $contentType = isset( $_SERVER[ "CONTENT_TYPE" ] ) ? trim( $_SERVER[ "CONTENT_TYPE" ] ) : '';
+        if ( strcasecmp( $contentType, 'application/json' ) == 0 ) {
+          $contentReceived = trim( file_get_contents( "php://input" ) );
+          $contentDecoded = json_decode( $contentReceived, true );
+          if ( is_array( $contentDecoded ) ) {
+            // save array with received data
+			// example
+			// JSON = { "name": "Joseph", "email": "joseph@email.com" }
+			// DATA = array('name'=> "Joseph", 'email'=>"joseph@email.com")
+            define( 'DATA', $contentDecoded );
           }
         }
       }
     }
-    if ( empty( $this->errormessage ) ) { // não teve mensagem de erro
+    if ( empty( $this->errormessage ) ) {
+      // there were no errors, save the information
+      // example:
+      // URL = /users/123/projects/456
+	  //RESOURCES = array('users'=>123, 'projects'=>456)
       define( 'RESOURCES', $this->resources );
       return true;
     } else {
