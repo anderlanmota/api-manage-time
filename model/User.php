@@ -27,9 +27,14 @@ class User extends Auth {
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
 
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
 
+		  
+		  
+      }
     }
   }
 
@@ -44,15 +49,20 @@ class User extends Auth {
     } else {
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
 
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
+
+		  
+		  
+      }
     }
   }
 
   // edita um usuário
-  // Api Public: YES
+  // Api Public: NO
   private function put() {
     $checkPermission = $this->checkPermission();
     if ( $checkPermission[ 'responseCode' ] != '200' ) {
@@ -64,17 +74,20 @@ class User extends Auth {
       $email = @$Sanitizer->email( DATA[ 'email' ] );
       $login = @strtolower( $Sanitizer->alphanumeric( DATA[ 'login' ], false, false, 30 ) );
       $userId = @RESOURCES[ 'users' ];
-		
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+ 
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
 
-
+		  
+		  
+      }
     }
   }
 
   // apaga um usuário
-  // Api Public: YES
+  // Api Public: NO
   private function delete() {
     $checkPermission = $this->checkPermission();
     if ( $checkPermission[ 'responseCode' ] != '200' ) {
@@ -83,10 +96,14 @@ class User extends Auth {
     } else {
       $userId = @RESOURCES[ 'users' ];
 
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
-		
-		
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
+
+		  
+		  
+      }
     }
   }
 }

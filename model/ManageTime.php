@@ -31,11 +31,15 @@ class ManageTime extends Auth {
       //$datetime1 = strtotime( '2022-01-18 08:56:45' );
       //$datetime2 = strtotime( '2022-01-18 09:58:46' );
       //$secs = round( $datetime2 - $datetime1 );
-		
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+ 	
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
 
+		  
+		  
+      }
     }
   }
 
@@ -51,11 +55,15 @@ class ManageTime extends Auth {
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
       $timeId = @RESOURCES[ 'times' ];
-		
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
-	
+ 
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
+
+		  
+		  
+      }
     }
   }
 
@@ -73,12 +81,15 @@ class ManageTime extends Auth {
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
       $timeId = @RESOURCES[ 'times' ];
-		
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+ 
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
 
-
+		  
+		  
+      }
     }
   }
 
@@ -94,10 +105,14 @@ class ManageTime extends Auth {
       $projectId = @RESOURCES[ 'projects' ];
       $timeId = @RESOURCES[ 'times' ];
 		
-		
-      http_response_code( 500 );
-      return array( "message" => "Erro interno. Tente novamente mais tarde." );
+      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+        http_response_code( 401 );
+        return array( "message" => "A solicitação não foi autorizada." );
+      } else {
 
+		  
+		  
+      }
     }
   }
 }
