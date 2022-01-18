@@ -27,7 +27,7 @@ class ManageTime extends Auth {
 	  // Return Success: { "time" : OBJECT }
 	  // Return Fail: { "message" : STRING }
 	  
-	  return array( "message" => "TIME POST $started / $ended / $userId / $projectId / $timeId" );
+	  return array( "message" => "TIME POST $started / $ended / $userId / $projectId / $timeId", "data" => DATA );
 	  
   }
 
