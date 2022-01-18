@@ -50,6 +50,11 @@ class Sanitizer {
     $string = preg_replace( '#[^0-9\/]#', '', substr( $valor, 0, 10 ) );
     return $string; // return number and /
   }
+	
+  public function datetime( $string ) {
+    $string = preg_replace( '#[^0-9 -:]#', '', substr( $valor, 0, 20 ) );
+    return $string; // return number, - and :
+  }
 
   public function hour( $string ) {
     $string = preg_replace( '#[^0-9\:]#', '', substr( $string, 0, 5 ) );

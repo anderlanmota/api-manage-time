@@ -15,11 +15,19 @@ class ManageTime extends Auth {
   // cria um novo tempo / inicia um novo tempo
   // Api Public: NO
   private function post(){
+	  $Sanitizer = new Sanitizer();
+	  $started = @$Sanitizer->datetime(DATE['started']);
+	  $ended = @$Sanitizer->datetime(DATE['started']);
+	  $userId = @RESOURCES['users'];
+	  $projectId = @RESOURCES['projects'];
+	  $timeId = @RESOURCES['times'];
+	  
+	  
 	  // Requests: { "project_id": INT, "user_id": INT, "started_at": DATETIME, "ended_at": DATETIME, }
 	  // Return Success: { "time" : OBJECT }
 	  // Return Fail: { "message" : STRING }
 	  
-	  return array( "message" => "TIME POST OK" );
+	  return array( "message" => "TIME POST $started / $ended / $userId / $projectId / $timeId" );
 	  
   }
 
@@ -27,6 +35,9 @@ class ManageTime extends Auth {
   // permite listar tempos referente a um usuário ou um projeto
   // Api Public: NO
   private function get(){
+	  $timeId = @RESOURCES['times'];
+	  $userId = @RESOURCES['users'];
+	  $projectId = @RESOURCES['projects'];
 	  
 	  return array( "message" => "TIME GET OK" );
   }
@@ -34,8 +45,12 @@ class ManageTime extends Auth {
   // edita um tempo / para informar uma data final
   // Api Public: NO
   private function put(){
-	  // permite editar dados ou confirmar o e-mail
-	  
+	  $Sanitizer = new Sanitizer();
+	  $ended = @$Sanitizer->datetime(DATE['started']);
+	  $timeId = @RESOURCES['times'];
+	  $userId = @RESOURCES['users'];
+	  $projectId = @RESOURCES['projects'];
+
 	  
 	  return array( "message" => "TIME PUT OK" );
   }
@@ -43,6 +58,9 @@ class ManageTime extends Auth {
   // apaga um tempo
   // Api Public: NO
   private function delete(){
+	  $timeId = @RESOURCES['times'];
+	  $userId = @RESOURCES['users'];
+	  $projectId = @RESOURCES['projects'];
 	  
 	  return array( "message" => "TIME DELETE OK" );
   }
