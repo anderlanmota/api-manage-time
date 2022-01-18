@@ -47,12 +47,12 @@ class Sanitizer {
   }
 
   public function date_br( $string ) {
-    $string = preg_replace( '#[^0-9\/]#', '', substr( $valor, 0, 10 ) );
+    $string = preg_replace( '#[^0-9\/]#', '', substr( $string, 0, 10 ) );
     return $string; // return number and /
   }
 	
   public function datetime( $string ) {
-    $string = preg_replace( '#[^0-9 -:]#', '', substr( $valor, 0, 20 ) );
+    $string = preg_replace( '#[^0-9 -:]#', '', substr( $string, 0, 20 ) );
     return $string; // return number, - and :
   }
 
@@ -66,11 +66,9 @@ class Sanitizer {
     return $string;
   }
 
-  public function base64( $valor ) {
-    $valor = str_replace( array( '"', "'", '`', '´', '¨' ), '', trim( $valor ) );
-    $valor = substr( $valor, 0, $limit );
-    $valor = strip_tags( $valor );
-    return $valor;
+  public function base64( $string ) {
+    $string = strip_tags( substr( str_replace( array( '"', "'", '`', '´', '¨' ), '', trim( $string ) ), 0, $limit ) );
+    return $string;
   }
 }
 ?>

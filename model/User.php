@@ -15,6 +15,12 @@ class User extends Auth {
   // cria um novo usuário
   // Api Public: YES
   private function post(){
+	  $Sanitizer = new Sanitizer();
+	  
+	  
+	  
+	  
+	  
 	  // Request: { "name": STRING, "email": STRING, "login": STRING; "password": STRING }
 	  // Return Success: { "user" : OBJECT }
 	  // Return Fail: { "message" : STRING }
@@ -35,6 +41,7 @@ class User extends Auth {
   // edita um usuário
   // Api Public: YES
   private function put(){
+	  $Sanitizer = new Sanitizer();
 	  
 	  return array( "message" => "USER PUT OK" );
   }

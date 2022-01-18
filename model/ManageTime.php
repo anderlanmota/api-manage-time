@@ -16,8 +16,8 @@ class ManageTime extends Auth {
   // Api Public: NO
   private function post(){
 	  $Sanitizer = new Sanitizer();
-	  $started = DATA['started'];
-	  $ended = @$Sanitizer->datetime(DATA['started']);
+	  $started = @$Sanitizer->datetime(DATA['started']);
+	  $ended = @$Sanitizer->datetime(DATA['ended']);
 	  $userId = @RESOURCES['users'];
 	  $projectId = @RESOURCES['projects'];
 	  $timeId = @RESOURCES['times'];
@@ -46,7 +46,7 @@ class ManageTime extends Auth {
   // Api Public: NO
   private function put(){
 	  $Sanitizer = new Sanitizer();
-	  $ended = @$Sanitizer->datetime(DATA['started']);
+	  $ended = @$Sanitizer->datetime(DATA['ended']);
 	  $timeId = @RESOURCES['times'];
 	  $userId = @RESOURCES['users'];
 	  $projectId = @RESOURCES['projects'];
