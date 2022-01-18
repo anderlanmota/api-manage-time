@@ -63,9 +63,6 @@ class Resource extends Sanitizer {
       // JSON = { "name": "Joseph", "email": "joseph@email.com" }
 	  // DATA = array('name'=> "Joseph", 'email'=>"joseph@email.com")
 	  define( 'DATA', $this->data );
-
-	  define( 'AUTH', array() );
-		
       return true;
     } else {
       return false;
