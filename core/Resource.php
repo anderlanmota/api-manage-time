@@ -25,7 +25,7 @@ class Resource extends Sanitizer {
               if ( empty( $element_value ) ) {
                 $resource_name = "";
               } else {
-                $resource_name = $this->sanitizer_alphanumeric( $element_value, false, true, 55 );
+                $resource_name = $this->alphanumeric( $element_value, false, true, 55 );
               }
               if ( array_key_exists( $element_key + 1, $this->elements ) ) {
                 $next_element_value = $this->elements[ $element_key + 1 ];
@@ -35,7 +35,7 @@ class Resource extends Sanitizer {
               if ( empty( $next_element_value ) ) {
                 $resource_id = "";
               } else {
-                $resource_id = $this->sanitizer_alphanumeric( $next_element_value, false, true, 55 );
+                $resource_id = $this->alphanumeric( $next_element_value, false, true, 55 );
               }
               $this->resources[ $resource_name ] = "$resource_id";
             }
