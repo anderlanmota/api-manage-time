@@ -4,6 +4,7 @@
 class Resource extends Sanitizer {
   private $elements = array();
   private $resources = array();
+  private $data = array();
   public $errormessage = "";
 
   // main method. responsible for processing the information received
@@ -46,11 +47,7 @@ class Resource extends Sanitizer {
           $contentReceived = trim( file_get_contents( "php://input" ) );
           $contentDecoded = json_decode( $contentReceived, true );
           if ( is_array( $contentDecoded ) ) {
-            // save array with received data
-			// example
-			// JSON = { "name": "Joseph", "email": "joseph@email.com" }
-			// DATA = array('name'=> "Joseph", 'email'=>"joseph@email.com")
-            define( 'DATA', $contentDecoded );
+			  $this->data = $contentDecoded;// save array with received data
           }
         }
       }
@@ -61,6 +58,12 @@ class Resource extends Sanitizer {
       // URL = /users/123/projects/456
 	  //RESOURCES = array('users'=>123, 'projects'=>456)
       define( 'RESOURCES', $this->resources );
+	
+	  // example
+      // JSON = { "name": "Joseph", "email": "joseph@email.com" }
+	  // DATA = array('name'=> "Joseph", 'email'=>"joseph@email.com")
+	  define( 'DATA', $this->data );
+		
       return true;
     } else {
       return false;

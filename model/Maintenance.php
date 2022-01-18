@@ -15,7 +15,8 @@ class Maintenance extends Database {
   // apaga log de arquivos
   // Api Public: YES
   private function delete(){
-	  
+	 
+	  return array( "message" => "MAINTENANCE DELETE OK" );
   }
 }
 ?>

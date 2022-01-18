@@ -19,7 +19,9 @@ class User extends Auth {
 	  // Return Success: { "user" : OBJECT }
 	  // Return Fail: { "message" : STRING }
 	  
-	  return array( "message" => "USER POST OK" );
+	  
+	  
+	  return array( "message" => "USER POST OK", "data" => DATA );
   }
 
   // exibe os dados de um usuário ou uma lista de usuários
