@@ -27,12 +27,12 @@ class Email {
 
   // send email using Mailgun
   private function mailgun( $toemail, $subject, $textmessage, $htmlmessage ) {
-	require(dirname( __FILE__ ) . "/../config/mailgun.php");
-	global $fromEmail;
-	global $fromName;
-	global $fromDomain;
-	global $mailgunKey;
-    //$fromEmail, $fromName, $fromDomain, $mailgunKey
+	$fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/mailgun.json" );
+	$contentArr = json_decode( $fileContents, true );
+    $fromEmail = $contentArr['fromEmail'];
+	$fromName = $contentArr['fromName'];
+	$fromDomain = $contentArr['fromDomain'];
+	$mailgunKey = $contentArr['mailgunKey'];
 	  
 	  exit("$fromEmail, $fromName, $fromDomain, $mailgunKey");
 	  
