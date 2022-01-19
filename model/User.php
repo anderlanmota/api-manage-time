@@ -220,7 +220,7 @@ class User extends Auth {
   }
 
   // edita um usuário
-  // Api Public: NO
+  // Api Public: NO 
   private function put() {
     $checkPermission = $this->checkPermission();
     if ( $checkPermission[ 'responseCode' ] != '200' ) {
