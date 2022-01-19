@@ -2,7 +2,7 @@
 class Auth extends Database {
   // check if the requesting user is logged in
   protected function checkPermission() {
-    $auth = array( "login" => "ander", "userId" => "112233", "role" => "user", "status" => "active" );
+    $auth = array( "login" => "ander", "userId" => "164260223919587552", "role" => "admin", "status" => "active" );
     define( 'AUTH', $auth );
     // salva esses dados em define AUTH
     return array( "responseCode" => "200", "message" => "OK" );
