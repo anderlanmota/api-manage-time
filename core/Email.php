@@ -33,10 +33,6 @@ class Email {
 	$fromName = $contentArr['fromName'];
 	$fromDomain = $contentArr['fromDomain'];
 	$mailgunKey = $contentArr['mailgunKey'];
-	  
-	  exit("$fromEmail, $fromName, $fromDomain, $mailgunKey");
-	  
-	/*
     $url = "https://api.eu.mailgun.net/v3/" . $fromDomain . "/messages";
     $data = array( 'from' => $fromName . " <" . $fromEmail . ">", 'to' => "$toemail", 'subject' => "$subject", 'text' => "$textmessage", 'html' => "$htmlmessage" );
     $ch = curl_init();
@@ -56,7 +52,6 @@ class Email {
     } else {
       return true;
     }
-	*/
   }
 
 }

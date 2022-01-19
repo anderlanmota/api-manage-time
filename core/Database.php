@@ -11,12 +11,12 @@ abstract class Database {
   */
   protected function mysqlquery( $query ) {
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.php" );
-    eval( $fileContents );
-    //$server
-    //$user
-    //$password
-    //$database
-    //$port
+    $contentArr = json_decode( $fileContents, true );
+    $server = $contentArr['server'];
+    $user = $contentArr['user'];
+    $password = $contentArr['password'];
+    $database = $contentArr['database'];
+    $port = $contentArr['port'];
     @$mysqli = new mysqli( $server, $user, $password, $database, $port );
     if ( $mysqli->connect_error ) {
       $error_string = $mysqli->connect_errno . "\r\n" . $mysqli->connect_error;
