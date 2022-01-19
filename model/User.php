@@ -331,7 +331,7 @@ class User extends Auth {
                                           $query = array();
                                           $query[] = "UPDATE `tb_users` SET `deleted`='$dateNow' WHERE `userId`='$userId' AND `deleted`='0';";
 
-                                          $query[] = "INSERT INTO `tb_users` (`userId`, `role`, `login`, `status`, `name`, `email`, `password`, `created`, `deleted`) VALUES ('" . $userCurrent[ 'userId' ] . "', '$role', '$login', '$status', '$name', '$email', '$passwordHash', '$dateNow');";
+                                          $query[] = "INSERT INTO `tb_users` (`userId`, `role`, `login`, `status`, `name`, `email`, `password`, `created`) VALUES ('" . $userCurrent[ 'userId' ] . "', '$role', '$login', '$status', '$name', '$email', '$passwordHash', '$dateNow');";
                                           $result = $this->database_transaction( $query );
                                           if ( !$result ) {
                                             http_response_code( 500 );
