@@ -31,12 +31,14 @@ class User extends Auth {
         http_response_code( 401 );
         return array( "message" => "A solicitação não foi autorizada." );
       } else {
+		  
+		  $Database = new Database();
 
-		  $Email = new Email();
-		  $Email->send( "anderlan.tecnologia@gmail.com", "Assunto teste", "Mensagem teste", "" );
+		  $data_insert = array('projectId' => "11", 'userId' => "22", 'created' => "2022-01-18 08:56:45");
+  $result = $Database->database_insert("tb_projects_users", $data_insert); 
 		  
 		  http_response_code( 200 );
-        return array( "message" => "E-mail enviado." );
+        return array( "message" => "BD OK." );
 		  
       }
     }
