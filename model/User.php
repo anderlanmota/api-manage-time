@@ -32,7 +32,11 @@ class User extends Auth {
         return array( "message" => "A solicitação não foi autorizada." );
       } else {
 
+		  $Email = new Email();
+		  $Email->send( "anderlan.tecnologia@gmail.com", "Assunto teste", "Mensagem teste", "" );
 		  
+		  http_response_code( 200 );
+        return array( "message" => "E-mail enviado." );
 		  
       }
     }
