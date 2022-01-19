@@ -1,6 +1,58 @@
 <?php
 // class responsible for executing transactions within the database
 abstract class Database {
+
+  protected function database_transaction( $querys ) {
+    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.json" );
+    $contentArr = json_decode( $fileContents, true );
+    $server = $contentArr[ 'server' ];
+    $user = $contentArr[ 'user' ];
+    $password = $contentArr[ 'password' ];
+    $database = $contentArr[ 'database' ];
+    $port = $contentArr[ 'port' ];
+    if ( !is_array( $querys ) ) {
+      return false;
+    } else {
+      $querystotal = count( $querys );
+      if ( $querystotal <= "0" ) {
+        return false;
+      } else {
+        @$mysqli = new mysqli( $server, $user, $password, $database, $port );
+        if ( $mysqli->connect_error ) {
+          $error_string = $mysqli->connect_errno . "\r\n" . $mysqli->connect_error;
+          error_log( date( "Y-m-d H:i:s" ) . " - " . $_SERVER[ 'REMOTE_ADDR' ] . "\r\n$error_string\r\n\r\n", 3, dirname( __FILE__ ) . "/error_database_transaction.log" );
+          return false;
+        } else {
+          if ( !$mysqli->set_charset( "utf8" ) ) {
+            $error_string = $mysqli->errno . "\r\n" . $mysqli->error;
+            error_log( date( "Y-m-d H:i:s" ) . " - " . $_SERVER[ 'REMOTE_ADDR' ] . "\r\n$error_string\r\n\r\n", 3, dirname( __FILE__ ) . "/error_database_transaction.log" );
+            return false;
+          } else {
+            $executed = 0;
+            $mysqli->begin_transaction();
+            foreach ( $querys as $query_exec ) {
+              if ( @$mysqli->query( "$query_exec" ) === TRUE ) {
+                $executed++;
+              } else {
+                $error_string = "$query_exec\r\n" . $mysqli->errno . "\r\n" . $mysqli->error;
+                error_log( date( "Y-m-d H:i:s" ) . " - " . $_SERVER[ 'REMOTE_ADDR' ] . "\r\n$error_string\r\n\r\n", 3, dirname( __FILE__ ) . "/error_database_transaction.log" );
+              }
+            }
+            if ( $executed == $querystotal ) {
+              $mysqli->commit();
+              $mysqli->close();
+              return true;
+            } else {
+              $mysqli->rollback();
+              $mysqli->close();
+              return false;
+            }
+          }
+        }
+      }
+    }
+  }
+
   /*
   Example mysqlquery:
   $query = "SELECT `id`, `login` FROM `tb_test` WHERE `id`='123';";
@@ -12,11 +64,11 @@ abstract class Database {
   protected function mysqlquery( $query ) {
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.json" );
     $contentArr = json_decode( $fileContents, true );
-    $server = $contentArr['server'];
-    $user = $contentArr['user'];
-    $password = $contentArr['password'];
-    $database = $contentArr['database'];
-    $port = $contentArr['port'];
+    $server = $contentArr[ 'server' ];
+    $user = $contentArr[ 'user' ];
+    $password = $contentArr[ 'password' ];
+    $database = $contentArr[ 'database' ];
+    $port = $contentArr[ 'port' ];
     @$mysqli = new mysqli( $server, $user, $password, $database, $port );
     if ( $mysqli->connect_error ) {
       $error_string = $mysqli->connect_errno . "\r\n" . $mysqli->connect_error;
