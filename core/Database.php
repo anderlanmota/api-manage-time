@@ -2,7 +2,7 @@
 // class responsible for executing transactions within the database
 abstract class Database {
 
-  protected function database_transaction( $querys ) {
+  protected function database_transaction( $querys ) { 
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.json" );
     $contentArr = json_decode( $fileContents, true );
     $server = $contentArr[ 'server' ];

@@ -332,7 +332,7 @@ class User extends Auth {
                                           $query[] = "UPDATE `tb_users` SET `deleted`='$dateNow' WHERE `userId`='$userId' AND `deleted`='0';";
 
                                           $query[] = "INSERT INTO `tb_users` (`userId`, `role`, `login`, `status`, `name`, `email`, `password`, `created`, `deleted`) VALUES ('" . $userCurrent[ 'userId' ] . "', '$role', '$login', '$status', '$name', '$email', '$passwordHash', '$dateNow');";
-                                          $result = $this->mysqlquery( $query );
+                                          $result = $this->database_transaction( $query );
                                           if ( !$result ) {
                                             http_response_code( 500 );
                                             return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
