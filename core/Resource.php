@@ -38,7 +38,7 @@ class Resource extends Sanitizer {
               } else {
                 $resource_id = $this->alphanumeric( $next_element_value, false, true, 55 );
               }
-              $this->resources[ $resource_name ] = @intval($resource_i);
+              $this->resources[ $resource_name ] = @intval($resource_id);
             }
           }
         }
