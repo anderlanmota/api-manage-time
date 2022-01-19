@@ -31,8 +31,6 @@ class User extends Auth {
         http_response_code( 401 );
         return array( "message" => "A solicitação não foi autorizada." );
       } else {
-		  
-		  $Database = new Database();
 
 		  $data_insert = array('projectId' => "11", 'userId' => "22", 'created' => "2022-01-18 08:56:45");
   $result = $this->database_insert("tb_projects_users", $data_insert); 
