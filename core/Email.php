@@ -28,6 +28,10 @@ class Email {
   // send email using Mailgun
   private function mailgun( $toemail, $subject, $textmessage, $htmlmessage ) {
 	require(dirname( __FILE__ ) . "/../config/mailgun.php");
+	global $fromEmail;
+	global $fromName;
+	global $fromDomain;
+	global $mailgunKey;
     //$fromEmail, $fromName, $fromDomain, $mailgunKey
     $url = "https://api.eu.mailgun.net/v3/" . $fromDomain . "/messages";
     $data = array( 'from' => $fromName . " <" . $fromEmail . ">", 'to' => "$toemail", 'subject' => "$subject", 'text' => "$textmessage", 'html' => "$htmlmessage" );
