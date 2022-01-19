@@ -33,7 +33,7 @@ class Email {
 	$fromName = $contentArr['fromName'];
 	$fromDomain = $contentArr['fromDomain'];
 	$mailgunKey = $contentArr['mailgunKey'];
-	$endpoint = $contentArr['mailgunKey'];
+	$endpoint = $contentArr['endpoint'];
     $url = "$endpoint/" . $fromDomain . "/messages";
     $data = array( 'from' => $fromName . " <" . $fromEmail . ">", 'to' => "$toemail", 'subject' => "$subject", 'text' => "$textmessage", 'html' => "$htmlmessage" );
     $ch = curl_init();
