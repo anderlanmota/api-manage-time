@@ -10,7 +10,7 @@ abstract class Database {
   false or query result
   */
   protected function mysqlquery( $query ) {
-    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.php" );
+    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.json" );
     $contentArr = json_decode( $fileContents, true );
     $server = $contentArr['server'];
     $user = $contentArr['user'];
