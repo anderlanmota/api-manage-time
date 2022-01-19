@@ -391,7 +391,7 @@ class User extends Auth {
               $dateNow = date( 'Y-m-d H:i:s' );
               $query = array();
               $query[] = "UPDATE `tb_users` SET `deleted`='$dateNow' WHERE `userId`='$userId' AND `deleted`='0';";
-              $result = $this->mysqlquery( $query );
+              $result = $this->database_transaction( $query );
               if ( !$result ) {
                 http_response_code( 500 );
                 return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
