@@ -71,16 +71,18 @@ class User extends Auth {
                             http_response_code( 422 );
                             return array( "message" => "A senha não pode ter mais de trinta caracteres." );
                           } else {
+                            $dateNow = date( 'Y-m-d H:i:s' );
                             $passwordHash = hash( 'sha256', $password );
                             $userId = $Sanitizer->number( microtime( true ) . rand( 100, 9999 ), 55 );
-                            $data_insert = array( 'name' => "$name", 'status' => "pending" );
+                            $data_insert = array( 'userId' => "$userId", 'login' => "$login", 'status' => "pending", 'name' => "$name", 'email' => "$email", 'password' => "$passwordHash", 'created' => "$dateNow" );
                             $result = $this->database_insert( "tb_users", $data_insert );
                             if ( !$result ) {
                               http_response_code( 500 );
                               return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
                             } else {
                               http_response_code( 200 );
-                              return array( "message" => "Cadastro realizado com sucesso." );
+                              $user = $this->userData( $userId, $userId, 'user' );
+                              return array( "user" => $user );
                             }
                           }
                         }
