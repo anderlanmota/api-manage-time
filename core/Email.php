@@ -27,8 +27,7 @@ class Email {
 
   // send email using Mailgun
   private function mailgun( $toemail, $subject, $textmessage, $htmlmessage ) {
-    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/mailgun.php" );
-    eval( $fileContents );
+	require(dirname( __FILE__ ) . "/../config/mailgun.php");
     //$fromEmail, $fromName, $fromDomain, $mailgunKey
     $url = "https://api.eu.mailgun.net/v3/" . $fromDomain . "/messages";
     $data = array( 'from' => $fromName . " <" . $fromEmail . ">", 'to' => "$toemail", 'subject' => "$subject", 'text' => "$textmessage", 'html' => "$htmlmessage" );
