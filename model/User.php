@@ -331,14 +331,15 @@ class User extends Auth {
                                           $query = array();
                                           $query[] = "UPDATE `tb_users` SET `deleted`='$dateNow' WHERE `userId`='$userId' AND `deleted`='0';";
 
-                                          $query[] = "INSERT INTO `tb_users` (`userId`, `role`, `login`, `status`, `name`, `email`, `password`, `created`) VALUES ('" . $userCurrent[ 'userId' ] . "', '$role', '$login', '$status', '$name', '$email', '$passwordHash', '$dateNow');";
+                                          $query[] = "INSERT INTO `tb_users` (`userId`, `role`, `login`, `status`, `name`, `email`, `password`, `created`) VALUES ('$userId', '$role', '$login', '$status', '$name', '$email', '$passwordHash', '$dateNow');";
                                           $result = $this->database_transaction( $query );
                                           if ( !$result ) {
                                             http_response_code( 500 );
                                             return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
                                           } else {
                                             http_response_code( 200 );
-                                            return array( "message" => "Cadastro realizado com sucesso." );
+                                            $user = $this->userData( $userId, $userId, 'user' );
+                                            return array( "user" => $user );
                                           }
                                         }
                                       }
