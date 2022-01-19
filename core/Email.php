@@ -33,7 +33,8 @@ class Email {
 	$fromName = $contentArr['fromName'];
 	$fromDomain = $contentArr['fromDomain'];
 	$mailgunKey = $contentArr['mailgunKey'];
-    $url = "https://api.eu.mailgun.net/v3/" . $fromDomain . "/messages";
+	$endpoint = $contentArr['mailgunKey'];
+    $url = "$endpoint/" . $fromDomain . "/messages";
     $data = array( 'from' => $fromName . " <" . $fromEmail . ">", 'to' => "$toemail", 'subject' => "$subject", 'text' => "$textmessage", 'html' => "$htmlmessage" );
     $ch = curl_init();
     curl_setopt( $ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
