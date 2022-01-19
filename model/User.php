@@ -35,7 +35,7 @@ class User extends Auth {
 		  $Database = new Database();
 
 		  $data_insert = array('projectId' => "11", 'userId' => "22", 'created' => "2022-01-18 08:56:45");
-  $result = $Database->database_insert("tb_projects_users", $data_insert); 
+  $result = $this->database_insert("tb_projects_users", $data_insert); 
 		  
 		  http_response_code( 200 );
         return array( "message" => "BD OK." );
