@@ -73,7 +73,7 @@ class User extends Auth {
                           } else {
                             $dateNow = date( 'Y-m-d H:i:s' );
                             $passwordHash = hash( 'sha256', $password );
-                            $userId = $Sanitizer->number( microtime( true ) . rand( 100, 9999 ), 55 );
+                            $userId = $Sanitizer->number( '1'.microtime( true ) . rand( 100, 9999 ), 55 );
                             $data_insert = array( 'userId' => "$userId", 'login' => "$login", 'status' => "pending", 'name' => "$name", 'email' => "$email", 'password' => "$passwordHash", 'created' => "$dateNow" );
                             $result = $this->database_insert( "tb_users", $data_insert );
                             if ( !$result ) {
@@ -153,6 +153,7 @@ class User extends Auth {
                       return $user;
                     }
                   } else {
+					  
                     $sqlwhere = "`deleted`='0'";
                     if ( !empty( $projectId ) ) {
                       $sqlwhere .= " AND EXISTS (SELECT 1 FROM tb_projects_users t2 WHERE t2.userId = t1.userId AND projectId='$projectId' AND `deleted`='0')";
