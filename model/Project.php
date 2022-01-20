@@ -266,7 +266,7 @@ class Project extends Auth {
                       $query = array();
 
                       $query[] = "INSERT INTO `tb_projects` (`projectId`, `userId`, `status`, `title`, `description`, `created`) VALUES ('$projectId', '$userId', '$status', '$title', '$description', '$dateNow');";
-                      $query[] = "INSERT INTO `tb_projects_users` (`projectId`, `userId`, `created`) VALUES ('$projectId', '$userId', '$dateNow');";
+                       
                       $result = $this->database_transaction( $query );
                       if ( !$result ) {
                         http_response_code( 500 );
