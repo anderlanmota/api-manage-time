@@ -96,7 +96,7 @@ class Project extends Auth {
     } else {
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];
-      $search = @$Sanitizer->alphanumeric( DATA[ 'search' ], true, true, 55 );
+      $search = $Sanitizer->alphanumeric( @DATA[ 'search' ], true, true, 55 );
       $page = @$Sanitizer->number( $_GET[ 'page' ], 15 );
 
       if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
