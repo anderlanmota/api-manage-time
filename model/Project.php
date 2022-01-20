@@ -1,5 +1,5 @@
 <?php
-class Project extends Auth { 
+class Project extends Auth {
   // starts execution, identifying which method will call
   public function run() {
     $Sanitizer = new Sanitizer();
@@ -264,9 +264,9 @@ class Project extends Auth {
                       $userId = $project[ 'userId' ];
                       $dateNow = date( 'Y-m-d H:i:s' );
                       $query = array();
-
+                      $query[] = "UPDATE `tb_projects` SET `deleted`='$dateNow' WHERE `projectId`='$projectId' AND `deleted`='0';";
                       $query[] = "INSERT INTO `tb_projects` (`projectId`, `userId`, `status`, `title`, `description`, `created`) VALUES ('$projectId', '$userId', '$status', '$title', '$description', '$dateNow');";
-                       
+
                       $result = $this->database_transaction( $query );
                       if ( !$result ) {
                         http_response_code( 500 );
@@ -319,7 +319,16 @@ class Project extends Auth {
             } else {
               $dateNow = date( 'Y-m-d H:i:s' );
               $query = array();
-              // apagar o projeto aqui
+              $query[] = "UPDATE `tb_projects` SET `deleted`='$dateNow' WHERE `projectId`='$projectId' AND `deleted`='0';";
+              $result = $this->database_transaction( $query );
+              if ( !$result ) {
+                http_response_code( 500 );
+                return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
+              } else {
+                http_response_code( 200 );
+                $project = $this->projectData( $projectId );
+                return array( "message" => "Projeto apagado." );
+              }
             }
           }
         }
@@ -390,7 +399,7 @@ class Project extends Auth {
       }
     }
   }
-	
+
   // apaga um projeto
   // Api Public: NO
   private function unlink() {
