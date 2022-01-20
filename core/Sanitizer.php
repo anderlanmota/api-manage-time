@@ -1,6 +1,6 @@
 <?php
 // class responsible for filtering input data
-class Sanitizer {
+class Sanitizer { 
 
   public function email( $string ) {
     $string = filter_var( substr( trim( strtolower( $string ) ), 0, 155 ), FILTER_SANITIZE_EMAIL );

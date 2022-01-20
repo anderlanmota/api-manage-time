@@ -1,5 +1,5 @@
 <?php
-class Auth extends Database {
+class Auth extends Database { 
   // check if the requesting user is logged in
   protected function checkPermission() {
     $auth = array( "login" => "ander", "userId" => "164260223919587552", "role" => "admin", "status" => "active" );

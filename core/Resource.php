@@ -1,6 +1,6 @@
 <?php
 // this class checks if the requested URL has the valid features
-// and save the information in const RESOURCES
+// and save the information in const RESOURCES 
 class Resource extends Sanitizer {
   private $elements = array();
   private $resources = array();

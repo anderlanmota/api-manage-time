@@ -1,6 +1,6 @@
 <?php
 // class responsible for sending emails
-class Email {
+class Email { 
   // $obj = new Email();
   // $return = $obj->send("to@email.com", "Subject here", "Message here", "Html message <b>here</b>");
   public function send( $toemail, $subject, $textmessage, $htmlmessage ) {

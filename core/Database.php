@@ -1,6 +1,6 @@
 <?php
 // class responsible for executing transactions within the database
-abstract class Database {
+abstract class Database { 
 
   protected function database_transaction( $querys ) { 
     $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/database.json" );

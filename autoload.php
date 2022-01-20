@@ -1,7 +1,7 @@
 <?php
 // set server timezone
 date_default_timezone_set( 'UTC' );
-
+ 
 // set some header settings
 header( "Access-Control-Allow-Origin: *" );
 header( 'Access-Control-Allow-Methods: *' );

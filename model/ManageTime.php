@@ -1,5 +1,5 @@
 <?php
-class ManageTime extends Auth {
+class ManageTime extends Auth { 
   // starts execution, identifying which method will call
   public function run() {
     $Sanitizer = new Sanitizer();

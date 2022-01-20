@@ -2,6 +2,7 @@
 // file responsible for calling classes according to the requested resource 
 $objResource = new Resource();
 $prepare = $objResource->prepare();
+ 
 if ( $prepare ) {
   $mainResource = @array_key_last( RESOURCES );
   // checks the resource and calls the correct class

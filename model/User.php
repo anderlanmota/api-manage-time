@@ -1,5 +1,5 @@
 <?php
-class User extends Auth {
+class User extends Auth { 
   // starts execution, identifying which method will call
   public function run() {
     $Sanitizer = new Sanitizer();

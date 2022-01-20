@@ -1,5 +1,5 @@
 <?php
-class Maintenance extends Database {
+class Maintenance extends Database { 
   // starts execution, identifying which method will call
   public function run() {
     $Sanitizer = new Sanitizer();
