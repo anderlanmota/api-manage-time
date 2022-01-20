@@ -20,7 +20,7 @@ class Maintenance extends Database {
     $contentArr = json_decode( $fileContents, true );
     $logRetention = intval( $contentArr[ 'logRetention' ] );
     $token = intval( $contentArr[ 'token' ] );
-    $token_url = @$Sanitizer->alphanumeric( DATA[ 'maintenance' ], true, true, 55 );
+    $token_url = @$Sanitizer->alphanumeric( $_GET[ 'token' ], true, true, 55 );
     if ( strcasecmp( $token, $token_url ) != 0 ) {
       http_response_code( 401 );
       return array( "message" => "A solicitação não foi autorizada." );
