@@ -26,10 +26,16 @@ class Maintenance extends Database {
       return array( "message" => "A solicitação não foi autorizada." );
     } else {
       if ( $logRetention > '0' ) {
-
-
+		  $dateNow = date( 'Y-m-d H:i:s' );
+		  $dateBack = date( 'Y-m-d H:i:s', strtotime( $dateNow . " -$logRetention seconds" ) );
+          $query[] = "DELETE FROM `tb_auth` WHERE `expireIn` IS NOT NULL AND `expireIn` <= '$dateBack';";
+		  $query[] = "DELETE FROM `tb_projects` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
+		  $query[] = "DELETE FROM `tb_projects_users` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
+		  $query[] = "DELETE FROM `tb_times` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
+		  $query[] = "DELETE FROM `tb_users` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
+          $result = $this->database_transaction( $query );
       }
-      $http_response_code( 200 );
+      http_response_code( 200 );
       return array( "message" => "Log apagado com sucesso." );
     }
   }
