@@ -457,7 +457,7 @@ class Project extends Auth {
 
   private function projectData( $projectId ) {
     $cols = array( 'projectId', 'userId', 'status', 'title', 'description', 'created' );
-    $result = $this->database_select( "tb_projects", $cols, "`userId`='$userId' AND `deleted`='0'" );
+    $result = $this->database_select( "tb_projects", $cols, "`projectId`='$projectId' AND `deleted`='0'" );
     $row = ( array )$result->fetch_object();
     return $row;
   }
