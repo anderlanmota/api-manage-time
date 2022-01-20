@@ -23,7 +23,7 @@ class Maintenance extends Database {
     $token_url = @$Sanitizer->alphanumeric( $_GET[ 'token' ], true, true, 55 );
     if ( strcasecmp( $token, $token_url ) != 0 ) {
       http_response_code( 401 );
-      return array( "message" => "A solicitação não foi autorizada." );
+      return array( "message" => "A solicitação não foi autorizada $token, $token_url." );
     } else {
       if ( $logRetention > '0' ) {
 
