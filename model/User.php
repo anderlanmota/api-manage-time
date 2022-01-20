@@ -108,7 +108,7 @@ class User extends Auth {
       return array( "message" => $checkPermission[ 'message' ] );
     } else {
       $Sanitizer = new Sanitizer();
-      $search = @$Sanitizer->alphanumeric( DATA[ 'search' ], true, true, 55 );
+      $search = @$Sanitizer->alphanumeric( $_GET[ 'search' ], true, true, 55 );
       $page = @$Sanitizer->number( $_GET[ 'page' ], 15 );
       $userId = @RESOURCES[ 'users' ];
       $projectId = @RESOURCES[ 'projects' ];

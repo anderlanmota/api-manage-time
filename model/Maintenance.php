@@ -1,5 +1,5 @@
 <?php
-class Maintenance extends Database { 
+class Maintenance extends Database {
   // starts execution, identifying which method will call
   public function run() {
     $Sanitizer = new Sanitizer();
@@ -15,8 +15,23 @@ class Maintenance extends Database {
   // apaga log de arquivos
   // Api Public: YES
   private function delete() {
-    $http_response_code( 200 );
-    return array( "message" => "OK" );
+    $Sanitizer = new Sanitizer();
+    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/maintenance.json" );
+    $contentArr = json_decode( $fileContents, true );
+    $logRetention = intval( $contentArr[ 'logRetention' ] );
+    $token = intval( $contentArr[ 'token' ] );
+    $token_url = @$Sanitizer->alphanumeric( DATA[ 'maintenance' ], true, true, 55 );
+    if ( strcasecmp( $token, $token_url ) != 0 ) {
+      http_response_code( 401 );
+      return array( "message" => "A solicitação não foi autorizada." );
+    } else {
+      if ( $logRetention > '0' ) {
+
+
+      }
+      $http_response_code( 200 );
+      return array( "message" => "Log apagado com sucesso." );
+    }
   }
 }
 ?>
