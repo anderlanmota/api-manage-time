@@ -91,8 +91,8 @@ class Auth extends Database {
                   $payload = [ 'exp' => $exp, 'uid' => $userId, 'role' => $role, ];
                   $header = json_encode( $header );
                   $payload = json_encode( $payload );
-                  $header = base64url_encode( $header );
-                  $payload = base64url_encode( $payload );
+                  $header = $this->base64url_encode( $header );
+                  $payload = $this->base64url_encode( $payload );
                   $sign = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
                   $sign = base64_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
