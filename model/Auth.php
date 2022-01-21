@@ -1,24 +1,58 @@
 <?php
 class Auth extends Database {
+  private $secretKey = "";
   // check if the requesting user is logged in
   protected function checkPermission() {
     $Sanitizer = new Sanitizer();
     $method = strtolower( $Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ) );
     if ( $method != "post" && $method != "get" && $method != "put" && $method != "patch" && $method != "delete" && $method != "unlink" ) {
+      http_response_code( 405 );
       return array( "responseCode" => "405", "message" => "Método não permitido." );
     } else {
-	  $jwt = preg_replace( '/[^a-zA-Z0-9\-_.]/', '', substr( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], 0, 155 ) );
-		
-		
-	
-
-    $auth = array( "login" => "ander", "userId" => "1164277669585412113", "role" => "user", "status" => "active" );
-    define( 'AUTH', $auth );
-    // salva esses dados em define AUTH
-    return array( "responseCode" => "422", "message" => "OK $jwt" );	
- 
+      $jwt_header = preg_replace( '/[^a-zA-Z0-9\-_. ]/', '', substr( $_SERVER[ 'REDIRECT_HTTP_AUTHORIZATION' ], 0, 155 ) );
+      $jwt_exp = explode( ' ', $jwt_header );
+      $jwt = $jwt_header[ 1 ];
+      if ( empty( $jwt ) ) {
+        $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
+        define( 'AUTH', $auth );
+        http_response_code( 200 );
+        return array( "responseCode" => "200", "message" => "" );
+      } else {
+        $secret = $this->getSecret();
+        $check_jwt = check_jwt( $jwt, $secret );
+        if ( !$check_jwt ) {
+          $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
+          define( 'AUTH', $auth );
+          http_response_code( 401 );
+          return array( "responseCode" => "401", "message" => "Acesso negado." );
+        } else {
+          $jwtParts = explode( '.', $jwt );
+          $payload = base64_decode( $jwtParts[ 1 ] );
+          $arr = json_decode( $payload, true );
+          if ( empty( $arr[ 'uid' ] ) || empty( $arr[ 'role' ] ) ) {
+            $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
+            define( 'AUTH', $auth );
+            http_response_code( 401 );
+            return array( "responseCode" => "401", "message" => "Acesso negado." );
+          } else {
+            $userId = $arr[ 'uid' ];
+			$role = $arr[ 'role' ];
+            $userActive = $this->database_count( "tb_users", "`userId`='$userId' AND (`status`='pending' OR `status`='active') AND `deleted`='0'" );
+            if ( $userActive != '1' ) {
+              $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
+              define( 'AUTH', $auth );
+              http_response_code( 401 );
+              return array( "responseCode" => "401", "message" => "Acesso negado." );
+            } else {
+              $auth = array( "userId" => $userId, "role" => $role );
+              define( 'AUTH', $auth );
+              http_response_code( 200 );
+              return array( "responseCode" => "200", "message" => "" );
+            }
+          }
+        }
+      }
     }
-
   }
 
   // starts execution, identifying which method will call
@@ -89,7 +123,7 @@ class Auth extends Database {
                   $userId = $user[ 'userId' ];
                   $role = $user[ 'role' ];
                   unset( $user[ 'password' ] );
-                  $key = $this->generateKey();
+                  $key = $this->getSecret();
                   $header = [ 'typ' => 'JWT', 'alg' => 'HS256' ];
                   $exp = time() + 3600;
                   $payload = [ 'exp' => $exp, 'uid' => $userId, 'role' => $role, ];
@@ -111,16 +145,10 @@ class Auth extends Database {
     }
   }
 
-  private function generateKey() {
-    $characters = rand( 25, 45 );
-    $alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $pass = array();
-    $alphaLength = strlen( $alphabet ) - 1;
-    for ( $i = 0; $i < $characters; $i++ ) {
-      $n = rand( 0, $alphaLength );
-      $pass[] = $alphabet[ $n ];
-    }
-    $token = implode( $pass );
+  private function getSecret() {
+    $fileContents = file_get_contents( CONFIG_FOLDER . "/secret.json" );
+    $contentArr = json_decode( $fileContents, true );
+    $token = $contentArr[ 'token' ];
     return $token;
   }
 
