@@ -15,15 +15,15 @@ class Auth extends Database {
         $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
         define( 'AUTH', $auth );
         http_response_code( 200 );
-        return array( "responseCode" => "200", "message" => "" );
+        return array( "responseCode" => "200", "role" => "visitor" );
       } else {
         $secret = $this->getSecret();
         $check_jwt = $this->check_jwt( $jwt, $secret );
         if ( !$check_jwt ) {
           $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
           define( 'AUTH', $auth );
-          http_response_code( 401 );
-          return array( "responseCode" => "401", "message" => "Acesso negado." );
+          http_response_code( 200 );
+          return array( "responseCode" => "200", "role" => "visitor" );
         } else {
           $jwtParts = explode( '.', $jwt );
           $payload = base64_decode( $jwtParts[ 1 ] );
@@ -31,8 +31,8 @@ class Auth extends Database {
           if ( empty( $arr[ 'uid' ] ) || empty( $arr[ 'role' ] ) ) {
             $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
             define( 'AUTH', $auth );
-            http_response_code( 401 );
-            return array( "responseCode" => "401", "message" => "Acesso negado." );
+            http_response_code( 200 );
+            return array( "responseCode" => "200", "role" => "visitor" );
           } else {
             $userId = $arr[ 'uid' ];
             $role = $arr[ 'role' ];
@@ -40,13 +40,13 @@ class Auth extends Database {
             if ( $userActive != '1' ) {
               $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
               define( 'AUTH', $auth );
-              http_response_code( 401 );
-              return array( "responseCode" => "401", "message" => "Acesso negado." );
+              http_response_code( 200 );
+              return array( "responseCode" => "200", "role" => "visitor" );
             } else {
               $auth = array( "userId" => $userId, "role" => $role );
               define( 'AUTH', $auth );
               http_response_code( 200 );
-              return array( "responseCode" => "200", "message" => "" );
+              return array( "responseCode" => "200", "role" => "$role" );
             }
           }
         }
