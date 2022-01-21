@@ -168,6 +168,7 @@ class Auth extends Database {
     if ( !empty( $jwt ) ) {
       $tokenParts = explode( '.', $jwt );
       if ( count( $tokenParts ) < '3' ) {
+		  exit("E01");
         return false;
       } else {
         $header = base64_decode( $tokenParts[ 0 ] );
@@ -181,16 +182,20 @@ class Auth extends Database {
         $base64_url_signature = $this->base64url_encode( $signature );
         $is_signature_valid = ( $base64_url_signature === $signature_provided );
         if ( $is_token_expired ) {
+			 exit("E02");
           return false;
         } else {
           if ( !$is_signature_valid ) {
+			   exit("E03");
             return false;
           } else {
+			   exit("E04");
             return true;
           }
         }
       }
     } else {
+		 exit("E05");
       return false;
     }
   }
