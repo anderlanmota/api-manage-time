@@ -64,7 +64,7 @@ class ManageTime extends Auth {
                     } else {
                       if ( !$this->validateDate( $started, 'Y-m-d H:i:s' ) ) {
                         http_response_code( 422 );
-                        return array( "message" => "Data ou hora inicial é inválida $started." );
+                        return array( "message" => "Data ou hora inicial é inválida." );
                       } else {
                         if ( !empty( $ended ) && !$this->validateDate( $ended, 'Y-m-d H:i:s' ) ) {
                           http_response_code( 422 );
@@ -407,7 +407,7 @@ class ManageTime extends Auth {
 
   private function validateDate( $date, $format = 'Y-m-d H:i:s' ) {
     $datecreate = DateTime::createFromFormat( $format, $date );
-    if ( $d && $d->format( $format ) == $date ) {
+    if ( $datecreate && $datecreate->format( $format ) == $date ) {
       return true;
     } else {
       return false;
