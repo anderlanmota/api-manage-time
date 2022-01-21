@@ -10,7 +10,7 @@ class Auth extends Database {
     } else {
       $jwt_header = preg_replace( '/[^a-zA-Z0-9\-_. ]/', '', substr( $_SERVER[ 'REDIRECT_HTTP_AUTHORIZATION' ], 0, 155 ) );
       $jwt_exp = explode( ' ', $jwt_header );
-      $jwt = $jwt_header[ 1 ];
+      $jwt = $jwt_exp[ 1 ];
       if ( empty( $jwt ) ) {
         $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
         define( 'AUTH', $auth );
