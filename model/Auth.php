@@ -82,17 +82,17 @@ class Auth extends Database {
                   http_response_code( 422 );
                   return array( "message" => "Conta indisponível." );
                 } else {
-				  $userId = $user[ 'userId' ];
-				  $role = $user[ 'role' ];
-				  unset($user[ 'password' ]);
+                  $userId = $user[ 'userId' ];
+                  $role = $user[ 'role' ];
+                  unset( $user[ 'password' ] );
                   $key = $this->generateKey();
                   $header = [ 'typ' => 'JWT', 'alg' => 'HS256' ];
                   $exp = time() + 3600;
                   $payload = [ 'exp' => $exp, 'uid' => $userId, 'role' => $role, ];
                   $header = json_encode( $header );
                   $payload = json_encode( $payload );
-                  $header = base64_encode( $header );
-                  $payload = base64_encode( $payload );
+                  $header = base64url_encode( $header );
+                  $payload = base64url_encode( $payload );
                   $sign = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
                   $sign = base64_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
@@ -131,11 +131,17 @@ class Auth extends Database {
     return "abc123";
   }
 
-  private function userDataAuth( $login ) { 
+  private function userDataAuth( $login ) {
     $cols = array( 'userId', 'role', 'login', 'status', 'name', 'email', 'password', 'created' );
     $result = $this->database_select( "tb_users", $cols, "`login`='$login' AND `deleted`='0'" );
     $row = ( array )$result->fetch_object();
     return $row;
+  }
+
+  private function base64url_encode( $data ) {
+    $b64 = base64_encode( $data );
+    $url = strtr( $b64, '+/', '-_' );
+    return rtrim( $url, '=' );
   }
 }
 ?>
