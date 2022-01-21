@@ -7,14 +7,18 @@ class Auth extends Database {
     if ( $method != "post" && $method != "get" && $method != "put" && $method != "patch" && $method != "delete" && $method != "unlink" ) {
       return array( "responseCode" => "200", "message" => "OK" );
     } else {
-
-    }
-
+		
+		
+		
+	
 
     $auth = array( "login" => "ander", "userId" => "164260223919587552", "role" => "user", "status" => "active" );
     define( 'AUTH', $auth );
     // salva esses dados em define AUTH
-    return array( "responseCode" => "200", "message" => "OK" );
+    return array( "responseCode" => "200", "message" => "OK" );	
+ 
+    }
+
   }
 
   // starts execution, identifying which method will call
@@ -94,11 +98,10 @@ class Auth extends Database {
                   $header = $this->base64url_encode( $header );
                   $payload = $this->base64url_encode( $payload );
                   $sign = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
-				  $sign2 = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
                   $sign = $this->base64url_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
                   http_response_code( 200 );
-                  return array( "token" => "$jwt", "user" => $user, "sig" => "$sign" );
+                  return array( "token" => "$jwt", "user" => $user );
                 }
               }
             }
@@ -108,28 +111,17 @@ class Auth extends Database {
     }
   }
 
-  // apaga uma sessão
-  // Api Public: NO
-  private function delete() {
-    $checkPermission = $this->checkPermission();
-    if ( $checkPermission[ 'responseCode' ] != '200' ) {
-      http_response_code( $checkPermission[ 'responseCode' ] );
-      return array( "message" => $checkPermission[ 'message' ] );
-    } else {
-      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
-        http_response_code( 401 );
-        return array( "message" => "A solicitação não foi autorizada." );
-      } else {
-
-        http_response_code( 200 );
-        return array( "message" => "Em dev" );
-
-      }
-    }
-  }
-
   private function generateKey() {
-    return "abc123";
+    $characters = rand( 25, 45 );
+    $alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $pass = array();
+    $alphaLength = strlen( $alphabet ) - 1;
+    for ( $i = 0; $i < $characters; $i++ ) {
+      $n = rand( 0, $alphaLength );
+      $pass[] = $alphabet[ $n ];
+    }
+    $token = implode( $pass );
+    return $token;
   }
 
   private function userDataAuth( $login ) {
@@ -143,6 +135,29 @@ class Auth extends Database {
     $b64 = base64_encode( $data );
     $url = strtr( $b64, '+/', '-_' );
     return rtrim( $url, '=' );
+  }
+
+  private function check_jwt( $jwt, $secret ) {
+    $tokenParts = explode( '.', $jwt );
+    $header = base64_decode( $tokenParts[ 0 ] );
+    $payload = base64_decode( $tokenParts[ 1 ] );
+    $signature_provided = $tokenParts[ 2 ];
+    $expiration = json_decode( $payload )->exp;
+    $is_token_expired = ( $expiration - time() ) < 0;
+    $base64_url_header = base64url_encode( $header );
+    $base64_url_payload = base64url_encode( $payload );
+    $signature = hash_hmac( 'SHA256', $base64_url_header . "." . $base64_url_payload, $secret, true );
+    $base64_url_signature = base64url_encode( $signature );
+    $is_signature_valid = ( $base64_url_signature === $signature_provided );
+    if ( $is_token_expired ) {
+      return false;
+    } else {
+      if ( !$is_signature_valid ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
   }
 }
 ?>

@@ -28,7 +28,6 @@ class Maintenance extends Database {
       if ( $logRetention > '0' ) {
 		  $dateNow = date( 'Y-m-d H:i:s' );
 		  $dateBack = date( 'Y-m-d H:i:s', strtotime( $dateNow . " -$logRetention seconds" ) );
-          $query[] = "DELETE FROM `tb_auth` WHERE `expireIn` IS NOT NULL AND `expireIn` <= '$dateBack';";
 		  $query[] = "DELETE FROM `tb_projects` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
 		  $query[] = "DELETE FROM `tb_projects_users` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
 		  $query[] = "DELETE FROM `tb_times` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
