@@ -94,10 +94,11 @@ class Auth extends Database {
                   $header = $this->base64url_encode( $header );
                   $payload = $this->base64url_encode( $payload );
                   $sign = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
+				  $sign2 = hash_hmac( 'sha256', $header . "." . $payload, $key, true );
                   $sign = $this->base64url_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
                   http_response_code( 200 );
-                  return array( "token" => "$jwt", "user" => $user, "sig" => hash_hmac( 'sha256', $header . "." . $payload, $key, true ) );
+                  return array( "token" => "$jwt", "user" => $user, "sig" => "$sign2" );
                 }
               }
             }
