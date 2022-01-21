@@ -394,7 +394,6 @@ class ManageTime extends Auth {
                 return array( "message" => "Erro interno. Por favor, tente novamente mais tarde." );
               } else {
                 http_response_code( 200 );
-                $project = $this->projectData( $projectId );
                 return array( "message" => "Registro de tempo apagado." );
               }
             }
