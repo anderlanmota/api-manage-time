@@ -30,14 +30,10 @@ class Auth extends Database {
     } else {
       $Sanitizer = new Sanitizer();
 
-
-      if ( strcasecmp( AUTH[ 'role' ], 'user' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
-        http_response_code( 401 );
-        return array( "message" => "A solicitação não foi autorizada." );
-      } else {
-
-
-      }
+      http_response_code( 200 );
+      return array( "message" => "Em dev" );
+		
+		
     }
   }
 
@@ -54,7 +50,9 @@ class Auth extends Database {
         return array( "message" => "A solicitação não foi autorizada." );
       } else {
 
-
+		   http_response_code( 200 );
+           return array( "message" => "Em dev" );
+		  
       }
     }
   }
