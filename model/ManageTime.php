@@ -64,7 +64,7 @@ class ManageTime extends Auth {
                     } else {
                       if ( !$this->validateDate( $started, 'Y-m-d H:i:s' ) ) {
                         http_response_code( 422 );
-                        return array( "message" => "Data ou hora inicial é inválida." );
+                        return array( "message" => "Data ou hora inicial é inválida $started." );
                       } else {
                         if ( !empty( $ended ) && !$this->validateDate( $ended, 'Y-m-d H:i:s' ) ) {
                           http_response_code( 422 );
