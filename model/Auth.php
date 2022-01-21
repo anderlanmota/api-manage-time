@@ -7,7 +7,7 @@ class Auth extends Database {
     if ( $method != "post" && $method != "get" && $method != "put" && $method != "patch" && $method != "delete" && $method != "unlink" ) {
       return array( "responseCode" => "405", "message" => "Método não permitido." );
     } else {
-	  $jwt = preg_replace( '/[^a-zA-Z0-9\-_]/', '', substr( $_SERVER[ 'HTTP_AUTHORIZATION' ], 0, 155 ) );
+	  $jwt = preg_replace( '/[^a-zA-Z0-9\-_.]/', '', substr( $_SERVER[ 'HTTP_AUTHORIZATION' ], 0, 155 ) );
 		
 		
 	
@@ -15,7 +15,7 @@ class Auth extends Database {
     $auth = array( "login" => "ander", "userId" => "1164277669585412113", "role" => "user", "status" => "active" );
     define( 'AUTH', $auth );
     // salva esses dados em define AUTH
-    return array( "responseCode" => "422", "message" => "OK $auth" );	
+    return array( "responseCode" => "422", "message" => "OK $jwt" );	
  
     }
 
