@@ -98,7 +98,7 @@ class Auth extends Database {
                   $sign = $this->base64url_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
                   http_response_code( 200 );
-                  return array( "token" => "$jwt", "user" => $user, "sig" => "$sign2" );
+                  return array( "token" => "$jwt", "user" => $user, "sig" => "$sign" );
                 }
               }
             }
