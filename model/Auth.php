@@ -97,7 +97,7 @@ class Auth extends Database {
                   $sign = base64_encode( $sign );
                   $jwt = $header . '.' . $payload . '.' . $sign;
                   http_response_code( 200 );
-                  return array( "token" => "$jwt", "user" => $payload );
+                  return array( "token" => "$jwt", "user" => $user );
                 }
               }
             }
@@ -132,7 +132,7 @@ class Auth extends Database {
   }
 
   private function userDataAuth( $login ) {
-    $cols = array( 'userId', 'role', 'password', 'status' );
+    $cols = array( 'userId', 'role', 'login', 'status', 'name', 'email', 'created' );
     $result = $this->database_select( "tb_users", $cols, "`login`='$login' AND `deleted`='0'" );
     $row = ( array )$result->fetch_object();
     return $row;
