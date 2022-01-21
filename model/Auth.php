@@ -84,7 +84,7 @@ class Auth extends Database {
                 } else {
 				  $userId = $user[ 'userId' ];
 				  $role = $user[ 'role' ];
-					  
+				  unset($user[ 'password' ]);
                   $key = $this->generateKey();
                   $header = [ 'typ' => 'JWT', 'alg' => 'HS256' ];
                   $exp = time() + 3600;
@@ -131,8 +131,8 @@ class Auth extends Database {
     return "abc123";
   }
 
-  private function userDataAuth( $login ) {
-    $cols = array( 'userId', 'role', 'login', 'status', 'name', 'email', 'created' );
+  private function userDataAuth( $login ) { 
+    $cols = array( 'userId', 'role', 'login', 'status', 'name', 'email', 'password', 'created' );
     $result = $this->database_select( "tb_users", $cols, "`login`='$login' AND `deleted`='0'" );
     $row = ( array )$result->fetch_object();
     return $row;
