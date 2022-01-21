@@ -5,17 +5,17 @@ class Auth extends Database {
     $Sanitizer = new Sanitizer();
     $method = strtolower( $Sanitizer->alphabetic( $_SERVER[ 'REQUEST_METHOD' ], false, false, 20 ) );
     if ( $method != "post" && $method != "get" && $method != "put" && $method != "patch" && $method != "delete" && $method != "unlink" ) {
-      return array( "responseCode" => "200", "message" => "OK" );
+      return array( "responseCode" => "405", "message" => "Método não permitido." );
     } else {
-		
+	  $jwt = preg_replace( '/[^a-zA-Z0-9\-_]/', '', substr( $_SERVER[ 'HTTP_AUTHORIZATION' ], 0, 155 ) );
 		
 		
 	
 
-    $auth = array( "login" => "ander", "userId" => "164260223919587552", "role" => "user", "status" => "active" );
+    $auth = array( "login" => "ander", "userId" => "1164277669585412113", "role" => "user", "status" => "active" );
     define( 'AUTH', $auth );
     // salva esses dados em define AUTH
-    return array( "responseCode" => "200", "message" => "OK" );	
+    return array( "responseCode" => "422", "message" => "OK $auth" );	
  
     }
 
