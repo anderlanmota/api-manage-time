@@ -19,7 +19,7 @@ class Auth extends Database {
         return array( "responseCode" => "200", "message" => "" );
       } else {
         $secret = $this->getSecret();
-        $check_jwt = check_jwt( $jwt, $secret );
+        $check_jwt = $this->check_jwt( $jwt, $secret );
         if ( !$check_jwt ) {
           $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
           define( 'AUTH', $auth );
