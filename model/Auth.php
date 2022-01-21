@@ -1,6 +1,5 @@
 <?php
 class Auth extends Database {
-  private $secretKey = "";
   // check if the requesting user is logged in
   protected function checkPermission() {
     $Sanitizer = new Sanitizer();
@@ -36,7 +35,7 @@ class Auth extends Database {
             return array( "responseCode" => "401", "message" => "Acesso negado." );
           } else {
             $userId = $arr[ 'uid' ];
-			$role = $arr[ 'role' ];
+            $role = $arr[ 'role' ];
             $userActive = $this->database_count( "tb_users", "`userId`='$userId' AND (`status`='pending' OR `status`='active') AND `deleted`='0'" );
             if ( $userActive != '1' ) {
               $auth = array( "login" => "", "userId" => "", "role" => "visitor", "status" => "" );
@@ -166,25 +165,33 @@ class Auth extends Database {
   }
 
   private function check_jwt( $jwt, $secret ) {
-    $tokenParts = explode( '.', $jwt );
-    $header = base64_decode( $tokenParts[ 0 ] );
-    $payload = base64_decode( $tokenParts[ 1 ] );
-    $signature_provided = $tokenParts[ 2 ];
-    $expiration = json_decode( $payload )->exp;
-    $is_token_expired = ( $expiration - time() ) < 0;
-    $base64_url_header = base64url_encode( $header );
-    $base64_url_payload = base64url_encode( $payload );
-    $signature = hash_hmac( 'SHA256', $base64_url_header . "." . $base64_url_payload, $secret, true );
-    $base64_url_signature = base64url_encode( $signature );
-    $is_signature_valid = ( $base64_url_signature === $signature_provided );
-    if ( $is_token_expired ) {
-      return false;
-    } else {
-      if ( !$is_signature_valid ) {
+    if ( !empty( $jwt ) ) {
+      $tokenParts = explode( '.', $jwt );
+      if ( count( $tokenParts ) < '3' ) {
         return false;
       } else {
-        return true;
+        $header = base64_decode( $tokenParts[ 0 ] );
+        $payload = base64_decode( $tokenParts[ 1 ] );
+        $signature_provided = $tokenParts[ 2 ];
+        $expiration = json_decode( $payload )->exp;
+        $is_token_expired = ( $expiration - time() ) < 0;
+        $base64_url_header = base64url_encode( $header );
+        $base64_url_payload = base64url_encode( $payload );
+        $signature = hash_hmac( 'SHA256', $base64_url_header . "." . $base64_url_payload, $secret, true );
+        $base64_url_signature = base64url_encode( $signature );
+        $is_signature_valid = ( $base64_url_signature === $signature_provided );
+        if ( $is_token_expired ) {
+          return false;
+        } else {
+          if ( !$is_signature_valid ) {
+            return false;
+          } else {
+            return true;
+          }
+        }
       }
+    } else {
+      return false;
     }
   }
 }
