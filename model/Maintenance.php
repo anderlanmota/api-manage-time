@@ -16,7 +16,7 @@ class Maintenance extends Database {
   // Api Public: YES
   private function delete() {
     $Sanitizer = new Sanitizer();
-    $fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/maintenance.json" );
+    $fileContents = file_get_contents( CONFIG_FOLDER . "/maintenance.json" );
     $contentArr = json_decode( $fileContents, true );
     $logRetention = intval( $contentArr[ 'logRetention' ] );
     $token = $contentArr[ 'token' ];

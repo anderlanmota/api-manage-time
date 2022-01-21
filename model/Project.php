@@ -118,7 +118,7 @@ class Project extends Auth {
           } else {
             $projectIsPart = '0';
           }
-          if ( !empty( $userId ) && !empty( $projectId ) && strcasecmp( $projectIsPart, '0' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+          if ( !empty( $userId ) && !empty( $projectId ) && strcasecmp( $projectIsPart, '1' ) != 0 && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
             http_response_code( 403 );
             return array( "message" => "Usuário sem permissão para acessar este recurso." );
           } else {
@@ -135,11 +135,10 @@ class Project extends Auth {
                 http_response_code( 403 );
                 return array( "message" => "Usuário sem permissão para acessar este recurso." );
               } else {
-                if ( !empty( $projectId ) && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
+                if ( empty( $userId ) && strcasecmp( AUTH[ 'role' ], 'admin' ) != 0 ) {
                   http_response_code( 403 );
                   return array( "message" => "Usuário sem permissão para acessar este recurso." );
                 } else {
-
                   if ( !empty( $projectId ) ) {
                     http_response_code( 200 );
                     $project = $this->projectData( $projectId );

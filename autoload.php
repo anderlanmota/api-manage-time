@@ -1,4 +1,7 @@
 <?php
+// folder where the settings files are
+define( 'CONFIG_FOLDER', dirname( __FILE__ ) . "/config/" );
+
 // set server timezone
 date_default_timezone_set( 'UTC' );
  

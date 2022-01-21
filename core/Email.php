@@ -27,7 +27,7 @@ class Email {
 
   // send email using Mailgun
   private function mailgun( $toemail, $subject, $textmessage, $htmlmessage ) {
-	$fileContents = file_get_contents( dirname( __FILE__ ) . "/../config/mailgun.json" );
+	$fileContents = file_get_contents( CONFIG_FOLDER . "/mailgun.json" );
 	$contentArr = json_decode( $fileContents, true );
     $fromEmail = $contentArr['fromEmail'];
 	$fromName = $contentArr['fromName'];
