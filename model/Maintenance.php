@@ -33,6 +33,7 @@ class Maintenance extends Database {
 		  $query[] = "DELETE FROM `tb_projects_users` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
 		  $query[] = "DELETE FROM `tb_times` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
 		  $query[] = "DELETE FROM `tb_users` WHERE `deleted` != '0' AND `deleted` <= '$dateBack';";
+		  $query[] = "DELETE FROM `tb_auth_error_log` WHERE `created` <= '$dateBack';";
           $result = $this->database_transaction( $query );
       }
       http_response_code( 200 );
