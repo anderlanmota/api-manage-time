@@ -29,5 +29,3 @@ See the api documentation:
 https://documenter.getpostman.com/view/8513372/UVXonZaK
 
 Attention: See the examples of each function to understand the request and return format of the api. 
-
-The endpoint for testing is: https://anderlan.com.br/api-manage-time/v1/
